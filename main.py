@@ -161,8 +161,9 @@ if not st.session_state.logged_in:
 # DASHBOARD
 # =========================
 def show_dashboard():
-    st.markdown("<h1 class='main-header'>Sistem Pembuatan Surat Otomatis</h1>", unsafe_allow_html=True)
-    st.markdown("<h4 style='text-align:center'>Silahkan pilih menu di bawah ini:</h4>", unsafe_allow_html=True)
+    st.markdown("<h1 style='color:#1E3A8A;' class='main-header'>Sistem Pembuatan Surat Otomatis</h1>",unsafe_allow_html=True)
+    st.markdown("<h4 style='text-align:center; color:#1E3A8A;'>Silahkan pilih menu di bawah ini:</h4>",unsafe_allow_html=True)
+
 
     col1, col2, col3 = st.columns(3)
 
@@ -323,6 +324,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
