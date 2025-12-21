@@ -96,20 +96,26 @@ st.markdown("""
 #                 st.error("Username atau password salah")
 
 def show_login():
-    st.markdown("""
-    <div style="text-align:center; margin-top:60px;">
-        <div style="font-size:64px;">📄</div>
-        <h1 style="color:#1E3A8A; margin-bottom:0;">Otomatisasi Surat Aset</h1>
-        <p style="color:#555; margin-top:4px;">
-            Departemen Optimasi Aset dan Infrastruktur
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div style='margin-top:60px;'></div>", unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1, 1.2, 1])
 
     with col2:
-        st.markdown("### 🔐 Login ke Sistem")
+        # LOGO (GANTI PATH SESUAI FILE LOGO KAMU)
+        st.image("logo_pal.png", width=140)
+
+        st.markdown("""
+        <h2 style="text-align:center; margin-bottom:5px;">
+            Sistem Otomatisasi Pembuatan Surat
+        </h2>
+        <p style="text-align:center; color:#555; margin-top:0;">
+            by Departemen Optimasi Aset dan Infrastruktur<br>
+            PT PAL Indonesia
+        </p>
+        """, unsafe_allow_html=True)
+
+        st.markdown("### Login")
+        st.caption("Silahkan login untuk masuk sistem")
 
         username = st.text_input("Username", placeholder="Masukkan username")
         password = st.text_input("Password", type="password", placeholder="Masukkan password")
@@ -125,7 +131,6 @@ def show_login():
                 st.rerun()
             else:
                 st.error("Username atau password salah")
-
 # =========================
 # AUTH GUARD (KUNCI SISTEM)
 # =========================
@@ -299,5 +304,6 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
