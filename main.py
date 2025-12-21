@@ -94,23 +94,36 @@ st.markdown("""
 #                 st.rerun()
 #             else:
 #                 st.error("Username atau password salah")
-
 def show_login():
-    # CSS CARD TIMBUL
     st.markdown("""
     <style>
         .login-wrapper {
             display: flex;
             justify-content: center;
-            margin-top: 60px;
+            align-items: center;
+            min-height: 90vh;
+            background-color: #f4f6fb;
         }
         .login-card {
             width: 100%;
             max-width: 720px;
             background: white;
-            padding: 40px 50px;
+            padding: 45px 55px;
             border-radius: 16px;
-            box-shadow: 0 18px 45px rgba(0,0,0,0.15);
+            box-shadow: 0 20px 55px rgba(0,0,0,0.15);
+            text-align: center;
+        }
+        .login-title {
+            color: #1E3A8A;
+            margin-bottom: 6px;
+        }
+        .login-subtitle {
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .login-helper {
+            color: #777;
+            margin-bottom: 25px;
         }
     </style>
 
@@ -118,45 +131,43 @@ def show_login():
         <div class="login-card">
     """, unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1, 2, 1])
+    # LOGO
+    st.image("logo_pal (2).png", width=180)
 
-    with col2:
-        # LOGO
-        st.image("logo_pal (2).png", width=200)
-
-        st.markdown("""
-        <h2 style="text-align:center; margin-bottom:5px; color:#1E3A8A;">
+    st.markdown("""
+        <h2 class="login-title">
             Sistem Otomatisasi Pembuatan Surat
         </h2>
-        <p style="text-align:center; color:#555; margin-top:0;">
+        <div class="login-subtitle">
             by Departemen Optimasi Aset dan Infrastruktur<br>
             PT PAL Indonesia
-        </p>
-        """, unsafe_allow_html=True)
+        </div>
 
-        st.markdown("### Login")
-        st.caption("Silahkan login untuk masuk sistem")
+        <h4>Login</h4>
+        <div class="login-helper">
+            Silahkan login untuk masuk sistem
+        </div>
+    """, unsafe_allow_html=True)
 
-        username = st.text_input("Username", placeholder="Masukkan username")
-        password = st.text_input("Password", type="password", placeholder="Masukkan password")
+    username = st.text_input("Username", placeholder="Masukkan username")
+    password = st.text_input("Password", type="password", placeholder="Masukkan password")
 
-        if st.button("Masuk", use_container_width=True):
-            if (
-                username == st.secrets["ADMIN_USERNAME"]
-                and password == st.secrets["ADMIN_PASSWORD"]
-            ):
-                st.session_state.logged_in = True
-                st.success("Login berhasil")
-                st.query_params.clear()
-                st.rerun()
-            else:
-                st.error("Username atau password salah")
+    if st.button("Masuk", use_container_width=True):
+        if (
+            username == st.secrets["ADMIN_USERNAME"]
+            and password == st.secrets["ADMIN_PASSWORD"]
+        ):
+            st.session_state.logged_in = True
+            st.query_params.clear()
+            st.rerun()
+        else:
+            st.error("Username atau password salah")
 
-    # TUTUP CARD
     st.markdown("""
         </div>
     </div>
     """, unsafe_allow_html=True)
+
 
     
 # =========================
@@ -332,6 +343,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
