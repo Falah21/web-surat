@@ -95,147 +95,44 @@ st.markdown("""
 #             else:
 #                 st.error("Username atau password salah")
 
-# def show_login():
-#     st.markdown("<div style='margin-top:60px;'></div>", unsafe_allow_html=True)
-
-#     col1, col2, col3 = st.columns([1, 1.2, 1])
-
-#     with col2:
-#         # LOGO (GANTI PATH SESUAI FILE LOGO KAMU)
-#         st.image("logo_pal (2).png", width=200)
-
-#         st.markdown("""
-#         <h2 style="text-align:center; margin-bottom:5px;">
-#             Sistem Otomatisasi Pembuatan Surat
-#         </h2>
-#         <p style="text-align:center; color:#555; margin-top:0;">
-#             by Departemen Optimasi Aset dan Infrastruktur<br>
-#             PT PAL Indonesia
-#         </p>
-#         """, unsafe_allow_html=True)
-
-#         st.markdown("### Login")
-#         st.caption("Silahkan login untuk masuk sistem")
-
-#         username = st.text_input("Username", placeholder="Masukkan username")
-#         password = st.text_input("Password", type="password", placeholder="Masukkan password")
-
-#         if st.button("Masuk", use_container_width=True):
-#             if (
-#                 username == st.secrets["ADMIN_USERNAME"]
-#                 and password == st.secrets["ADMIN_PASSWORD"]
-#             ):
-#                 st.session_state.logged_in = True
-#                 st.success("Login berhasil")
-#                 st.query_params.clear()
-#                 st.rerun()
-#             else:
-#                 st.error("Username atau password salah")
 def show_login():
-    st.markdown("""
-    <style>
-        /* Background halaman */
-        .stApp {
-            background: linear-gradient(180deg, #f4f6fb, #dde3f0);
-        }
+    st.markdown("<div style='margin-top:60px;'></div>", unsafe_allow_html=True)
 
-        /* Wrapper tengah */
-        .login-page {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 90vh;
-        }
+    col1, col2, col3 = st.columns([1, 2, 1])
 
-        /* Card timbul */
-        .login-card {
-            width: 100%;
-            max-width: 720px;
-            background: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 18px 50px rgba(0,0,0,0.15);
-            padding: 40px 50px 50px 50px;
-            position: relative;
-        }
+    with col2:
+        # LOGO (GANTI PATH SESUAI FILE LOGO KAMU)
+        st.image("logo_pal (2).png", width=200)
 
-        /* Logo pojok atas */
-        .login-logo {
-            position: absolute;
-            top: 30px;
-            left: 40px;
-        }
+        st.markdown("""
+        <h2 style="text-align:center; margin-bottom:5px;">
+            Sistem Otomatisasi Pembuatan Surat
+        </h2>
+        <p style="text-align:center; color:#555; margin-top:0;">
+            by Departemen Optimasi Aset dan Infrastruktur<br>
+            PT PAL Indonesia
+        </p>
+        """, unsafe_allow_html=True)
 
-        /* Konten tengah */
-        .login-content {
-            text-align: center;
-            margin-top: 60px;
-        }
+        st.markdown("### Login")
+        st.caption("Silahkan login untuk masuk sistem")
 
-        .login-title {
-            color: #1E3A8A;
-            margin-bottom: 8px;
-            font-size: 26px;
-            font-weight: 600;
-        }
+        username = st.text_input("Username", placeholder="Masukkan username")
+        password = st.text_input("Password", type="password", placeholder="Masukkan password")
 
-        .login-subtitle {
-            color: #555;
-            font-size: 1rem;
-            margin-bottom: 30px;
-        }
+        if st.button("Masuk", use_container_width=True):
+            if (
+                username == st.secrets["ADMIN_USERNAME"]
+                and password == st.secrets["ADMIN_PASSWORD"]
+            ):
+                st.session_state.logged_in = True
+                st.success("Login berhasil")
+                st.query_params.clear()
+                st.rerun()
+            else:
+                st.error("Username atau password salah")
 
-        .login-helper {
-            color: #777;
-            font-size: 0.95rem;
-            margin-bottom: 25px;
-        }
-    </style>
-
-    # <div class="login-page">
-    #     <div class="login-card">
-
-    #         <!-- LOGO PAL -->
-    #         <div class="login-logo">
-    #             <img src="assets/logo_pal_ind.png" width="110">
-    #         </div>
-
-    #         <!-- KONTEN TENGAH -->
-    #         <div class="login-content">
-    #             <h2 class="login-title">
-    #                 Sistem Otomatisasi Pembuatan Surat
-    #             </h2>
-
-    #             <div class="login-subtitle">
-    #                 by Departemen Optimasi Aset dan Infrastruktur<br>
-    #                 PT PAL Indonesia
-    #             </div>
-
-    #             <h4>Login</h4>
-    #             <div class="login-helper">
-    #                 Silahkan login untuk masuk sistem
-    #             </div>
-    # """, unsafe_allow_html=True)
-
-    username = st.text_input("Username", placeholder="Masukkan username")
-    password = st.text_input("Password", type="password", placeholder="Masukkan password")
-
-    if st.button("Masuk", use_container_width=True):
-        if (
-            username == st.secrets["ADMIN_USERNAME"]
-            and password == st.secrets["ADMIN_PASSWORD"]
-        ):
-            st.session_state.logged_in = True
-            st.query_params.clear()
-            st.rerun()
-        else:
-            st.error("Username atau password salah")
-
-    st.markdown("""
-            </div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
+    
 # =========================
 # AUTH GUARD (KUNCI SISTEM)
 # =========================
