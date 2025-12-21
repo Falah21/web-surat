@@ -105,10 +105,6 @@ def show_login():
         <h2 style="text-align:center; margin-bottom:5px; color:#1E3A8A;">
             Sistem Otomatisasi Pembuatan Surat
         </h2>
-        <p style="text-align:center; color:#555; margin-top:0;">
-            by Departemen Optimasi Aset dan Infrastruktur<br>
-            PT PAL Indonesia
-        </p>
         """, unsafe_allow_html=True
         )
 
@@ -127,7 +123,6 @@ def show_login():
         #     """,
         #     unsafe_allow_html=True
         # )
-        
         st.markdown("### Login")
         st.caption("Silahkan login untuk masuk sistem")
 
@@ -148,7 +143,7 @@ def show_login():
             
     st.markdown(
         "<div style='text-align:center;color:#666'>"
-        "Departemen Optimasi Aset dan Infrastruktur • © 2025 • Sistem Pembuatan Surat Otomatis"
+        "Created by Departemen Optimasi Aset dan Infrastruktur    •    © 2025"
         "</div>",
         unsafe_allow_html=True
     )
@@ -328,6 +323,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
