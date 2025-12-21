@@ -7,3 +7,4 @@ jinja2
 openpyxl
 pyperclip
 docxtpl
+num2words
