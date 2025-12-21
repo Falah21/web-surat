@@ -134,57 +134,86 @@ st.markdown("""
 def show_login():
     st.markdown("""
     <style>
-        .login-wrapper {
+        /* Background halaman */
+        .stApp {
+            background: linear-gradient(180deg, #f4f6fb, #dde3f0);
+        }
+
+        /* Wrapper tengah */
+        .login-page {
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 90vh;
         }
-        .login-box {
+
+        /* Card timbul */
+        .login-card {
             width: 100%;
-            max-width: 640px;   /* ⬅ diperlebar */
-            padding: 40px 50px;
-            border-radius: 14px;
-            background-color: #ffffff;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
-            text-align: center;
+            max-width: 720px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.15);
+            padding: 40px 50px 50px 50px;
+            position: relative;
         }
+
+        /* Logo pojok atas */
+        .login-logo {
+            position: absolute;
+            top: 30px;
+            left: 40px;
+        }
+
+        /* Konten tengah */
+        .login-content {
+            text-align: center;
+            margin-top: 60px;
+        }
+
         .login-title {
-            margin-bottom: 8px;
             color: #1E3A8A;
-            font-size: 28px;   /* ⬅ font lebih besar */
+            margin-bottom: 8px;
+            font-size: 26px;
             font-weight: 600;
         }
+
         .login-subtitle {
             color: #555;
             font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .login-helper {
+            color: #777;
+            font-size: 0.95rem;
             margin-bottom: 25px;
         }
     </style>
 
-    <div class="login-wrapper">
-        <div class="login-box">
-    """, unsafe_allow_html=True)
+    <div class="login-page">
+        <div class="login-card">
 
-    # ✅ LOGO PALING AMAN & CENTER
-    st.image("assets/logo_pal_ind.png", width=160)
+            <!-- LOGO PAL -->
+            <div class="login-logo">
+                <img src="assets/logo_pal_ind.png" width="110">
+            </div>
 
-    st.markdown("""
-        <h2 class="login-title">
-            Sistem Otomatisasi Pembuatan Surat
-        </h2>
+            <!-- KONTEN TENGAH -->
+            <div class="login-content">
+                <h2 class="login-title">
+                    Sistem Otomatisasi Pembuatan Surat
+                </h2>
 
-        <div class="login-subtitle">
-            by Departemen Optimasi Aset dan Infrastruktur<br>
-            PT PAL Indonesia
-        </div>
+                <div class="login-subtitle">
+                    by Departemen Optimasi Aset dan Infrastruktur<br>
+                    PT PAL Indonesia
+                </div>
 
-        <hr>
-
-        <h4>Login</h4>
-        <p style="color:#666; font-size:0.95rem;">
-            Silahkan login untuk masuk sistem
-        </p>
+                <h4>Login</h4>
+                <div class="login-helper">
+                    Silahkan login untuk masuk sistem
+                </div>
     """, unsafe_allow_html=True)
 
     username = st.text_input("Username", placeholder="Masukkan username")
@@ -196,13 +225,16 @@ def show_login():
             and password == st.secrets["ADMIN_PASSWORD"]
         ):
             st.session_state.logged_in = True
-            st.success("Login berhasil")
             st.query_params.clear()
             st.rerun()
         else:
             st.error("Username atau password salah")
 
-    st.markdown("</div></div>", unsafe_allow_html=True)
+    st.markdown("""
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 # =========================
 # AUTH GUARD (KUNCI SISTEM)
@@ -377,6 +409,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
