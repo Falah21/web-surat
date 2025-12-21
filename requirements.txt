@@ -1,0 +1,7 @@
+streamlit
+pymongo
+dnspython
+pandas
+python-docx
+jinja2
+pyperclip
