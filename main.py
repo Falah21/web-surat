@@ -167,7 +167,7 @@ def show_login():
     """, unsafe_allow_html=True)
 
     # ✅ LOGO PALING AMAN & CENTER
-    st.image("assets/logo_pal.png", width=160)
+    st.image("assets/logo_pal_ind.png", width=160)
 
     st.markdown("""
         <h2 class="login-title">
@@ -377,6 +377,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
