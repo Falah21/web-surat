@@ -95,27 +95,6 @@ st.markdown("""
 #             else:
 #                 st.error("Username atau password salah")
 def show_login():
-    # CSS CARD TIMBUL
-    st.markdown("""
-    <style>
-        .login-wrapper {
-            display: flex;
-            justify-content: center;
-            margin-top: 60px;
-        }
-        .login-card {
-            width: 100%;
-            max-width: 720px;
-            background: white;
-            padding: 40px 50px;
-            border-radius: 16px;
-            box-shadow: 0 18px 45px rgba(0,0,0,0.15);
-        }
-    </style>
-
-    <div class="login-wrapper">
-        <div class="login-card">
-    """, unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1, 2, 1])
 
@@ -332,6 +311,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
