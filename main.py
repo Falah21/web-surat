@@ -100,15 +100,7 @@ def show_login():
 
     with col2:
         # LOGO
-        # st.image("logo_pal (2).png", width=200)
-        st.markdown(
-            """
-            <div style="text-align: center;">
-                <img src="logo_pal (2).png" width="200">
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        st.image("logo_pal (2).png", width=200)
         st.markdown("""
         <h2 style="text-align:center; margin-bottom:5px; color:#1E3A8A;">
             Sistem Otomatisasi Pembuatan Surat
@@ -318,6 +310,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
