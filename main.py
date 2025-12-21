@@ -2,11 +2,20 @@ import streamlit as st
 import os
 import sys
 
+# =========================
+# KONFIGURASI HALAMAN
+# =========================
 st.set_page_config(
     page_title="Otomatisasi Surat",
     page_icon="📄",
     layout="wide"
 )
+
+# =========================
+# SESSION STATE LOGIN
+# =========================
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
 
 # =========================
 # SET PATH MODULES
@@ -62,6 +71,36 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
+
+# =========================
+# LOGIN PAGE
+# =========================
+def show_login():
+    st.markdown("<h2 style='text-align:center'>🔐 Login Sistem</h2>", unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+
+        if st.button("Login"):
+            if (
+                username == st.secrets["ADMIN_USERNAME"]
+                and password == st.secrets["ADMIN_PASSWORD"]
+            ):
+                st.session_state.logged_in = True
+                st.success("Login berhasil!")
+                st.query_params.clear()
+                st.rerun()
+            else:
+                st.error("Username atau password salah")
+
+# =========================
+# AUTH GUARD (KUNCI SISTEM)
+# =========================
+if not st.session_state.logged_in:
+    show_login()
+    st.stop()
 
 # =========================
 # DASHBOARD
@@ -149,40 +188,50 @@ def show_dashboard():
             st.rerun()
 
 # =========================
+# NAVIGASI ATAS (BACK + LOGOUT)
+# =========================
+def nav_buttons():
+    col1, col2 = st.columns([1, 6])
+    with col1:
+        if st.button("← Dashboard"):
+            st.query_params.clear()
+            st.rerun()
+    with col2:
+        if st.button("Logout"):
+            st.session_state.logged_in = False
+            st.query_params.clear()
+            st.rerun()
+
+# =========================
 # HALAMAN-HALAMAN
 # =========================
-def back_button():
-    if st.button("← Dashboard"):
-        st.query_params.clear()
-        st.rerun()
-
 def show_container():
-    back_button()
+    nav_buttons()
     from modules import container
     container.show()
 
 def show_kantor():
-    back_button()
+    nav_buttons()
     from modules import kantor
     kantor.show()
 
 def show_mess():
-    back_button()
+    nav_buttons()
     from modules import mess
     mess.show()
 
 def show_lahan():
-    back_button()
+    nav_buttons()
     from modules import lahan
     lahan.show()
 
 def show_rumah_dinas():
-    back_button()
+    nav_buttons()
     from modules import rumahdinas
     rumahdinas.show()
 
 def show_arsip():
-    back_button()
+    nav_buttons()
     from modules import arsip_data
     arsip_data.show()
 
@@ -207,7 +256,7 @@ elif page == "arsip":
     show_arsip()
 else:
     st.warning("Halaman tidak ditemukan.")
-    back_button()
+    nav_buttons()
 
 # =========================
 # FOOTER
@@ -219,5 +268,3 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
-
-
