@@ -131,7 +131,6 @@ st.markdown("""
 #                 st.rerun()
 #             else:
 #                 st.error("Username atau password salah")
-
 def show_login():
     st.markdown("""
     <style>
@@ -139,51 +138,53 @@ def show_login():
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 85vh;
+            min-height: 90vh;
         }
         .login-box {
             width: 100%;
-            max-width: 520px;
-            padding: 30px 40px;
-            border-radius: 12px;
+            max-width: 640px;   /* ⬅ diperlebar */
+            padding: 40px 50px;
+            border-radius: 14px;
             background-color: #ffffff;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.1);
             text-align: center;
         }
-        .login-box img {
-            display: block;
-            margin: 0 auto 15px auto;
-        }
         .login-title {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #1E3A8A;
+            font-size: 28px;   /* ⬅ font lebih besar */
+            font-weight: 600;
         }
         .login-subtitle {
             color: #555;
-            font-size: 0.95rem;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            margin-bottom: 25px;
         }
     </style>
 
     <div class="login-wrapper">
         <div class="login-box">
-            <img src="logo_pal (2).png" width="140">
+    """, unsafe_allow_html=True)
 
-            <h2 class="login-title">
-                Sistem Otomatisasi Pembuatan Surat
-            </h2>
+    # ✅ LOGO PALING AMAN & CENTER
+    st.image("assets/logo_pal.png", width=160)
 
-            <div class="login-subtitle">
-                by Departemen Optimasi Aset dan Infrastruktur<br>
-                PT PAL Indonesia
-            </div>
+    st.markdown("""
+        <h2 class="login-title">
+            Sistem Otomatisasi Pembuatan Surat
+        </h2>
 
-            <hr>
+        <div class="login-subtitle">
+            by Departemen Optimasi Aset dan Infrastruktur<br>
+            PT PAL Indonesia
+        </div>
 
-            <h4>Login</h4>
-            <p style="color:#666; font-size:0.9rem;">
-                Silahkan login untuk masuk sistem
-            </p>
+        <hr>
+
+        <h4>Login</h4>
+        <p style="color:#666; font-size:0.95rem;">
+            Silahkan login untuk masuk sistem
+        </p>
     """, unsafe_allow_html=True)
 
     username = st.text_input("Username", placeholder="Masukkan username")
@@ -376,6 +377,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
