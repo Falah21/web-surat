@@ -102,7 +102,7 @@ def show_login():
 
     with col2:
         # LOGO (GANTI PATH SESUAI FILE LOGO KAMU)
-        st.image("logo_pal.png", width=140)
+        st.image("logo_pal (2).png", width=200)
 
         st.markdown("""
         <h2 style="text-align:center; margin-bottom:5px;">
@@ -304,6 +304,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
