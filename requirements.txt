@@ -4,4 +4,5 @@ dnspython
 pandas
 python-docx
 jinja2
+openpyxl
 pyperclip
