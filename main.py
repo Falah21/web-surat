@@ -96,16 +96,36 @@ st.markdown("""
 #                 st.error("Username atau password salah")
 
 def show_login():
-    st.markdown("<div style='margin-top:60px;'></div>", unsafe_allow_html=True)
+    # CSS CARD TIMBUL
+    st.markdown("""
+    <style>
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            margin-top: 60px;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 720px;
+            background: white;
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.15);
+        }
+    </style>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+    """, unsafe_allow_html=True)
 
     col1, col2, col3 = st.columns([1, 2, 1])
 
     with col2:
-        # LOGO (GANTI PATH SESUAI FILE LOGO KAMU)
+        # LOGO
         st.image("logo_pal (2).png", width=200)
 
         st.markdown("""
-        <h2 style="text-align:center; margin-bottom:5px;">
+        <h2 style="text-align:center; margin-bottom:5px; color:#1E3A8A;">
             Sistem Otomatisasi Pembuatan Surat
         </h2>
         <p style="text-align:center; color:#555; margin-top:0;">
@@ -131,6 +151,12 @@ def show_login():
                 st.rerun()
             else:
                 st.error("Username atau password salah")
+
+    # TUTUP CARD
+    st.markdown("""
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     
 # =========================
@@ -306,6 +332,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
