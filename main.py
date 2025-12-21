@@ -75,21 +75,54 @@ st.markdown("""
 # =========================
 # LOGIN PAGE
 # =========================
+# def show_login():
+#     st.markdown("<h2 style='text-align:center'>🔐 Login Sistem</h2>", unsafe_allow_html=True)
+
+#     col1, col2, col3 = st.columns([1, 2, 1])
+#     with col2:
+#         username = st.text_input("Username")
+#         password = st.text_input("Password", type="password")
+
+#         if st.button("Login"):
+#             if (
+#                 username == st.secrets["ADMIN_USERNAME"]
+#                 and password == st.secrets["ADMIN_PASSWORD"]
+#             ):
+#                 st.session_state.logged_in = True
+#                 st.success("Login berhasil!")
+#                 st.query_params.clear()
+#                 st.rerun()
+#             else:
+#                 st.error("Username atau password salah")
+
 def show_login():
-    st.markdown("<h2 style='text-align:center'>🔐 Login Sistem</h2>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style="text-align:center; margin-top:60px;">
+        <div style="font-size:64px;">📄</div>
+        <h1 style="color:#1E3A8A; margin-bottom:0;">Otomatisasi Surat Aset</h1>
+        <p style="color:#555; margin-top:4px;">
+            Departemen Optimasi Aset dan Infrastruktur
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    col1, col2, col3 = st.columns([1, 2, 1])
+    st.markdown("<hr style='margin:30px 0;'>", unsafe_allow_html=True)
+
+    col1, col2, col3 = st.columns([1, 1.2, 1])
+
     with col2:
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
+        st.markdown("### 🔐 Login ke Sistem")
 
-        if st.button("Login"):
+        username = st.text_input("Username", placeholder="Masukkan username")
+        password = st.text_input("Password", type="password", placeholder="Masukkan password")
+
+        if st.button("Masuk", use_container_width=True):
             if (
                 username == st.secrets["ADMIN_USERNAME"]
                 and password == st.secrets["ADMIN_PASSWORD"]
             ):
                 st.session_state.logged_in = True
-                st.success("Login berhasil!")
+                st.success("Login berhasil")
                 st.query_params.clear()
                 st.rerun()
             else:
@@ -268,3 +301,4 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
