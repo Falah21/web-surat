@@ -100,34 +100,34 @@ def show_login():
 
     with col2:
         # LOGO
-        # st.image("logo_pal (2).png", width=200)
-        # st.markdown("""
-        # <h2 style="text-align:center; margin-bottom:5px; color:#1E3A8A;">
-        #     Sistem Otomatisasi Pembuatan Surat
-        # </h2>
-        # <p style="text-align:center; color:#555; margin-top:0;">
-        #     by Departemen Optimasi Aset dan Infrastruktur<br>
-        #     PT PAL Indonesia
-        # </p>
-        # """, unsafe_allow_html=Tru
-
-        st.markdown(
-            """
-            <div style="text-align:center;">
-                <img src="logo_pal (2).png" width="200" style="margin-bottom:10px;">
-                <h2 style="margin-bottom:5px; color:#1E3A8A;">
-                    Sistem Otomatisasi Pembuatan Surat
-                </h2>
-                <p style="color:#555; margin-top:0;">
-                    by Departemen Optimasi Aset dan Infrastruktur<br>
-                    PT PAL Indonesia
-                </p>
-            </div>
-            """,
-            unsafe_allow_html=True
+        st.image("logo_pal (2).png", width=200)
+        st.markdown("""
+        <h2 style="text-align:center; margin-bottom:5px; color:#1E3A8A;">
+            Sistem Otomatisasi Pembuatan Surat
+        </h2>
+        <p style="text-align:center; color:#555; margin-top:0;">
+            by Departemen Optimasi Aset dan Infrastruktur<br>
+            PT PAL Indonesia
+        </p>
+        """, unsafe_allow_html=True
         )
 
-
+        # st.markdown(
+        #     """
+        #     <div style="text-align:center;">
+        #         <img src="logo_pal (2).png" width="200" style="margin-bottom:10px;">
+        #         <h2 style="margin-bottom:5px; color:#1E3A8A;">
+        #             Sistem Otomatisasi Pembuatan Surat
+        #         </h2>
+        #         <p style="color:#555; margin-top:0;">
+        #             by Departemen Optimasi Aset dan Infrastruktur<br>
+        #             PT PAL Indonesia
+        #         </p>
+        #     </div>
+        #     """,
+        #     unsafe_allow_html=True
+        # )
+        
         st.markdown("### Login")
         st.caption("Silahkan login untuk masuk sistem")
 
@@ -145,12 +145,13 @@ def show_login():
                 st.rerun()
             else:
                 st.error("Username atau password salah")
-
-    # TUTUP CARD
-    st.markdown("""
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+            
+    st.markdown(
+        "<div style='text-align:center;color:#666'>"
+        "Departemen Optimasi Aset dan Infrastruktur • © 2025 • Sistem Pembuatan Surat Otomatis"
+        "</div>",
+        unsafe_allow_html=True
+    )
 
 
     
@@ -327,6 +328,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
