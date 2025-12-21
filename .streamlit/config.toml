@@ -1,1 +1,27 @@
+# .streamlit/config.toml
 
+[theme]
+base = "light"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F3F4F6"
+textColor = "#000000"
+primaryColor = "#1E3A8A"
+font = "sans serif"
+
+[server]
+headless = true
+# Opsional: maxUploadSize = 2000  # ukuran upload dalam MB
+
+[browser]
+gatherUsageStats = false
+# Opsional: serverAddress = "localhost"
+
+[layout]
+wide = true
+
+# Opsional: tambahkan jika perlu
+#[runner]
+#magicEnabled = false
+
+#[client]
+#showErrorDetails = true
