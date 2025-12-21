@@ -191,30 +191,30 @@ def show_login():
         }
     </style>
 
-    <div class="login-page">
-        <div class="login-card">
+    # <div class="login-page">
+    #     <div class="login-card">
 
-            <!-- LOGO PAL -->
-            <div class="login-logo">
-                <img src="assets/logo_pal_ind.png" width="110">
-            </div>
+    #         <!-- LOGO PAL -->
+    #         <div class="login-logo">
+    #             <img src="assets/logo_pal_ind.png" width="110">
+    #         </div>
 
-            <!-- KONTEN TENGAH -->
-            <div class="login-content">
-                <h2 class="login-title">
-                    Sistem Otomatisasi Pembuatan Surat
-                </h2>
+    #         <!-- KONTEN TENGAH -->
+    #         <div class="login-content">
+    #             <h2 class="login-title">
+    #                 Sistem Otomatisasi Pembuatan Surat
+    #             </h2>
 
-                <div class="login-subtitle">
-                    by Departemen Optimasi Aset dan Infrastruktur<br>
-                    PT PAL Indonesia
-                </div>
+    #             <div class="login-subtitle">
+    #                 by Departemen Optimasi Aset dan Infrastruktur<br>
+    #                 PT PAL Indonesia
+    #             </div>
 
-                <h4>Login</h4>
-                <div class="login-helper">
-                    Silahkan login untuk masuk sistem
-                </div>
-    """, unsafe_allow_html=True)
+    #             <h4>Login</h4>
+    #             <div class="login-helper">
+    #                 Silahkan login untuk masuk sistem
+    #             </div>
+    # """, unsafe_allow_html=True)
 
     username = st.text_input("Username", placeholder="Masukkan username")
     password = st.text_input("Password", type="password", placeholder="Masukkan password")
@@ -409,6 +409,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
