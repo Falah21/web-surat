@@ -57,11 +57,37 @@ def run():
     nomor_telepon_pihak_kedua = st.text_input("Nomor Telepon Penyewa/Perusahaan *", key="c_telepon", placeholder="Masukkan nomor telepon")
     email_pihak_kedua = st.text_input("Email Perusahaan *", key="c_email", placeholder="Masukkan email perusahaan")
 
-    # ====== DASAR PERJANJIAN ======
+    # ====== DASAR PERJANJIAN (DINAMIS) ======
     st.subheader("Dasar Perjanjian - Pasal 1")
-    st.caption("Isi dasar perjanjian dibawah ini dengan benar")
-    point_pertama_pasal_1 = st.text_area("Point Pertama *", key="c_point1", placeholder="Masukkan point pertama pasal 1 mengenai Dasar Perjanjian")
-    point_kedua_pasal_1 = st.text_area("Point Kedua *", key="c_point2", placeholder="Masukkan point kedua pasal 1 mengenai Dasar Perjanjian")
+    st.caption("Klik tambah jika ingin menambah dasar perjanjian")
+    
+    # simpan ke session_state
+    if "dasar_perjanjian" not in st.session_state:
+        st.session_state.dasar_perjanjian = [""]
+    
+    # render input
+    for i, val in enumerate(st.session_state.dasar_perjanjian):
+        st.text_area(
+            f"Dasar Perjanjian {i+1}",
+            key=f"dasar_{i}",
+            height=80
+        )
+    
+    # tombol tambah
+    if st.button("➕ Tambah Dasar Perjanjian"):
+        st.session_state.dasar_perjanjian.append("")
+    
+    # ====== FORMAT DASAR PERJANJIAN (INI KUNCI UTAMA) ======
+    dasar_perjanjian_list = [
+        st.session_state[f"dasar_{i}"].strip()
+        for i in range(len(st.session_state.dasar_perjanjian))
+        if st.session_state.get(f"dasar_{i}", "").strip()
+    ]
+    
+    dasar_perjanjian_text = "\n".join(
+        f"({i+1}).    {p}"
+        for i, p in enumerate(dasar_perjanjian_list)
+    )
 
     # ====== DATA SEWA CONTAINER ======
     st.subheader("Data Sewa Container")
@@ -253,8 +279,7 @@ def run():
         "email_pihak_kedua": email_pihak_kedua,
 
         # DASAR PERJANJIAN
-        "point_pertama_pasal_1": point_pertama_pasal_1,
-        "point_kedua_pasal_1": point_kedua_pasal_1,
+        "dasar_perjanjian": dasar_perjanjian_text,
 
         # DATA WILAYAH
         "wilayah": wilayah,
@@ -318,10 +343,8 @@ def run():
             errors.append("Ukuran Container")
         
         # Dasar Perjanjian
-        if not point_pertama_pasal_1.strip():
-            errors.append("Point Pertama Pasal 1")
-        if not point_kedua_pasal_1.strip():
-            errors.append("Point Kedua Pasal 1")
+        if not dasar_perjanjian_list:
+            error.append("Minimal 1 dasar perjanjian harus diisi")
         
         # Data Biaya
         if not harga_container_perbulan_input.strip():
@@ -378,3 +401,4 @@ def run():
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
     run()
+
