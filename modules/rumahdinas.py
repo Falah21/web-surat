@@ -138,9 +138,18 @@ def run():
             height=80
         )
     
-    # tombol tambah
-    if st.button("➕ Tambah Dasar Perjanjian"):
-        st.session_state.dasar_perjanjian.append("")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("➕ Tambah Point"):
+            st.session_state.dasar_perjanjian.append("")
+            st.rerun()
+    
+    with col2:
+        if len(st.session_state.dasar_perjanjian) > 1:
+            if st.button("➖ Hapus Point"):
+                st.session_state.dasar_perjanjian.pop()
+                st.rerun()
     
     # ====== FORMAT DASAR PERJANJIAN (INI KUNCI UTAMA) ======
     dasar_perjanjian_list = [
@@ -150,7 +159,7 @@ def run():
     ]
     
     dasar_perjanjian_text = "\n".join(
-        f"({i+1}).    {p}"
+        f"({i+1}).    {p}."
         for i, p in enumerate(dasar_perjanjian_list)
     )
 
@@ -336,6 +345,7 @@ def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
 
     run()
+
 
 
 
