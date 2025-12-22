@@ -12,14 +12,23 @@ from db import get_container_collection
 from datetime import datetime
 
 
+# ================= HELPER =================
+def readonly_input(label, key, value):
+    if key not in st.session_state:
+        st.session_state[key] = ""
+    st.session_state[key] = value
+    st.text_input(label, key=key, disabled=True)
+
+
+# ================= MAIN =================
 def run():
     st.header("📦 Perjanjian Kerjasama Container")
+
     st.markdown("""
-    <div style="background-color: #f8f9fa; padding: 12px; border-radius: 8px; border-left: 4px solid #0000ff;">
-    <strong>📋 Panduan Pengisian Form:</strong><br>
-    1. Isi semua data pada form di bawah<br>
-    2. Field dengan tanda <span style="color: #ff4b4b;">*</span> wajib diisi<br>
-    3. Data biaya dihitung otomatis
+    <div style="background-color:#f8f9fa;padding:12px;border-radius:8px;border-left:4px solid #0000ff">
+    <strong>📋 Panduan:</strong><br>
+    • Isi semua field wajib (*)<br>
+    • Data biaya dihitung otomatis
     </div>
     """, unsafe_allow_html=True)
 
@@ -38,7 +47,6 @@ def run():
         "Judul File Dokumen *",
         "SURAT PERJANJIAN KERJASAMA CONTAINER"
     )
-    docx_path = f"{nama_file}.docx"
 
     nomor_perjanjian = st.text_input(
         "Nomor Perjanjian *",
@@ -46,7 +54,7 @@ def run():
     )
     nomor_perjanjian_upper = nomor_perjanjian.upper()
 
-    tgl_setuju = st.date_input("Tanggal Penandatanganan Surat *")
+    tgl_setuju = st.date_input("Tanggal Penandatanganan *")
     hari_setuju, tanggal_setuju, bulan_setuju, tahun_setuju = parse_tanggal_ke_terbilang(tgl_setuju)
 
     # ================= DATA PENYEWA =================
@@ -54,7 +62,6 @@ def run():
 
     nama_perusahaan = st.text_input("Nama Perusahaan *")
     jenis_badan_usaha = st.text_area("Jenis Badan Usaha *")
-
     nama_penyewa = st.text_input("Nama Penyewa *")
     jabatan = st.text_input("Jabatan Penyewa *")
     alamat = st.text_input("Alamat Perusahaan *")
@@ -77,15 +84,17 @@ def run():
     )
 
     if ukuran_feet == "20":
-        ukuran_meter = 14.4
+        ukuran_meter = "14,4"
     elif ukuran_feet == "40":
-        ukuran_meter = 28.8
+        ukuran_meter = "28,8"
     else:
-        ukuran_meter = 0
+        ukuran_meter = ""
 
-    # ✅ DISPLAY OUTPUT (BUKAN text_input)
-    st.markdown("**Ukuran Meter Persegi**")
-    st.write(f"{ukuran_meter} m²")
+    readonly_input(
+        "Ukuran Meter Persegi",
+        "c_ukuran_meter",
+        ukuran_meter
+    )
 
     # ================= DURASI =================
     st.subheader("Durasi & Periode Sewa")
@@ -118,18 +127,15 @@ def run():
     biaya_sampah = parse_angka_simple(biaya_sampah_input)
     lama_sewa_num = parse_angka_simple(lama_sewa)
 
-    if satuan_sewa == "tahun":
-        lama_sewa_bulan = lama_sewa_num * 12
-    else:
-        lama_sewa_bulan = lama_sewa_num
+    lama_sewa_bulan = lama_sewa_num * 12 if satuan_sewa == "tahun" else lama_sewa_num
 
     total_biaya = (harga_container + biaya_sampah) * lama_sewa_bulan
+    total_biaya_display = format_display(str(total_biaya))
 
-    # ✅ DISPLAY OUTPUT (AMAN DI DEPLOY)
-    st.subheader("Total Biaya Kontribusi")
-    st.metric(
-        "Total Biaya (Belum termasuk listrik & air)",
-        format_display(str(total_biaya))
+    readonly_input(
+        "Total Biaya Kontribusi (belum termasuk listrik & air)",
+        "c_total_biaya",
+        total_biaya_display
     )
 
     # ================= GENERATE =================
@@ -159,15 +165,18 @@ def run():
         context = {
             "nomor_perjanjian": nomor_perjanjian_upper,
             "nama_perusahaan": smart_title(nama_perusahaan),
+            "jenis_badan_usaha": jenis_badan_usaha,
             "nama_penyewa": smart_title(nama_penyewa),
             "jabatan": smart_title(jabatan),
             "alamat": alamat,
+            "telepon": telepon,
+            "email": email,
             "wilayah": smart_title(wilayah),
             "ukuran_feet": ukuran_feet,
             "ukuran_meter": ukuran_meter,
             "lama_sewa": lama_sewa,
             "satuan_sewa": satuan_sewa,
-            "total_biaya": format_display(str(total_biaya)),
+            "total_biaya": total_biaya_display,
             "hari_setuju": hari_setuju,
             "tanggal_setuju": tanggal_setuju,
             "bulan_setuju": bulan_setuju,
@@ -175,6 +184,7 @@ def run():
         }
 
         doc.render(context)
+        docx_path = f"{nama_file}.docx"
         doc.save(docx_path)
 
         collection.insert_one({
@@ -187,7 +197,7 @@ def run():
         with open(docx_path, "rb") as f:
             st.download_button("⬇ Download DOCX", f, file_name=docx_path)
 
-        st.success("✅ Surat berhasil dibuat dan disimpan.")
+        st.success("✅ Surat berhasil dibuat dan disimpan ke database.")
 
 
 def show():
