@@ -105,16 +105,34 @@ def show():
 
             df = pd.DataFrame(data)
 
+            # # PAKSA SCHEMA PATEN
+            # schema = SCHEMA_MAP.get(tab_name)
+            # if schema:
+            #     df = df.reindex(columns=schema)
+
+            # # FORMAT CREATED_AT
+            # if "created_at" in df.columns:
+            #     df["created_at"] = pd.to_datetime(
+            #         df["created_at"], errors="coerce"
+            #     ).dt.strftime("%d-%m-%Y %H:%M")
+
             # PAKSA SCHEMA PATEN
             schema = SCHEMA_MAP.get(tab_name)
             if schema:
                 df = df.reindex(columns=schema)
-
+            
+            # FORMAT TANGGAL (dd-mm-yyyy)
+            for col in ["Tanggal Mulai", "Tanggal Selesai"]:
+                if col in df.columns:
+                    df[col] = pd.to_datetime(
+                        df[col], errors="coerce"
+                    ).dt.strftime("%d-%m-%Y")
+            
             # FORMAT CREATED_AT
             if "created_at" in df.columns:
                 df["created_at"] = pd.to_datetime(
                     df["created_at"], errors="coerce"
-                ).dt.strftime("%d-%m-%Y %H:%M")
+                ).dt.strftime("%d-%m-%Y")
 
             # FORMAT BIAYA
             if "Biaya Sewa Perbulan" in df.columns:
@@ -174,3 +192,4 @@ def show():
             #         use_container_width=True
 
             #     )
+
