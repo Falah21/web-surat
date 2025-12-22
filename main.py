@@ -248,7 +248,7 @@ def show_rumah_dinas():
 
 def show_surat_kuasa():
     nav_buttons()
-    form modules import suratkuasa
+    from modules import suratkuasa
     suratkuasa.show()
 
 def show_arsip():
@@ -310,3 +310,4 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
