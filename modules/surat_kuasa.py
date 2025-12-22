@@ -144,4 +144,9 @@ def run():
                 )
             st.success("Surat kuasa berhasil dibuat!")
         except Exception as e:
+
             st.error(f"Terjadi kesalahan saat membuat dokumen: {e}")
+
+def show():
+    """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
+    run()
