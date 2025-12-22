@@ -300,7 +300,8 @@ elif menu == "dashboard":
     # dashboard.show()
     st.subheader("📊 Dashboard Aset PT PAL Indonesia")
     st.components.v1.iframe(
-        src="https://lookerstudio.google.com/embed/reporting/2e025c09-773f-445f-abe2-9398cbc59af0/page/ESMYF",
+        src="https://lookerstudio.google.com/embed/reporting/e857cbdf-24a0-408e-b717-1d39a7fcf606/page/p_nr1v6q15xd",
+        width="100%",
         height=900,
         scrolling=True
     )
@@ -318,6 +319,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
