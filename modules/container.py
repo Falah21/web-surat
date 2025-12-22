@@ -85,7 +85,7 @@ def run():
         ukuran_meter_num = 0
 
     # Tampilkan ukuran meter (read-only)
-    st.text_input("Ukuran meter persegi", value=ukuran_meter, key="c_ukuran_meter", disabled=True)
+    st.text_input("Ukuran meter persegi", value=ukuran_meter, disabled=True)
 
     # FORMAT UKURAN FEET:
     # 1. ukuran_feet: hanya angka
@@ -195,7 +195,7 @@ def run():
     total_biaya_kontribusi_display = format_display(str(total_biaya_kontribusi))
     
     # Tampilkan total
-    st.text_input("Total Biaya Kontribusi (belum termasuk biaya fasilitas listrik dan air)", value=total_biaya_kontribusi_display, key="c_total_biaya", disabled=True)
+    st.text_input("Total Biaya Kontribusi (belum termasuk biaya fasilitas listrik dan air)", value=total_biaya_kontribusi_display, disabled=True)
 
     # Konversi ke string untuk template
     context = {
@@ -350,5 +350,6 @@ def run():
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
     run()
+
 
     
