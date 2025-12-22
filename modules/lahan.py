@@ -200,9 +200,36 @@ def run():
     # st.success(f"**Total Biaya Kontribusi per Bulan:** {total_biaya_kontribusi_display}")
 
     # Tampilkan total
-    st.text_input("Total Harga Lahan setelah PPN:", value=total_harga_setelah_ppn_display, key="l_harga_setelah_ppn", disabled=True)
-    st.text_input("Total Biaya Sampah setelah PPN:", value=total_biaya_sampah_setelah_ppn_display, key="l_sampah_setelah_ppn", disabled=True)
-    st.text_input("Total Biaya Kontribusi per Bulan:", value=total_biaya_kontribusi_display, key="l_biaya_kontribusi", disabled=True)
+    # st.text_input("Total Harga Lahan setelah PPN:", value=total_harga_setelah_ppn_display, key="l_harga_setelah_ppn", disabled=True)
+    # st.text_input("Total Biaya Sampah setelah PPN:", value=total_biaya_sampah_setelah_ppn_display, key="l_sampah_setelah_ppn", disabled=True)
+    # st.text_input("Total Biaya Kontribusi per Bulan:", value=total_biaya_kontribusi_display, key="l_biaya_kontribusi", disabled=True)
+
+    # ====== SESSION STATE: TOTAL HARGA LAHAN SETELAH PPN ======
+    if "l_harga_setelah_ppn" not in st.session_state:
+        st.session_state["l_harga_setelah_ppn"] = ""
+    
+    st.session_state["l_harga_setelah_ppn"] = total_harga_setelah_ppn_display
+    
+    st.text_input("Total Harga Lahan setelah PPN:", key="l_harga_setelah_ppn", disabled=True)
+    
+    
+    # ====== SESSION STATE: TOTAL BIAYA SAMPAH SETELAH PPN ======
+    if "l_sampah_setelah_ppn" not in st.session_state:
+        st.session_state["l_sampah_setelah_ppn"] = ""
+    
+    st.session_state["l_sampah_setelah_ppn"] = total_biaya_sampah_setelah_ppn_display
+    
+    st.text_input("Total Biaya Sampah setelah PPN:", key="l_sampah_setelah_ppn", disabled=True)
+    
+    
+    # ====== SESSION STATE: TOTAL BIAYA KONTRIBUSI ======
+    if "l_biaya_kontribusi" not in st.session_state:
+        st.session_state["l_biaya_kontribusi"] = ""
+    
+    st.session_state["l_biaya_kontribusi"] = total_biaya_kontribusi_display
+    
+    st.text_input("Total Biaya Kontribusi per Bulan:", key="l_biaya_kontribusi", disabled=True)
+
    
 
     # Konversi ke string untuk template
@@ -378,4 +405,5 @@ def run():
 
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
+
     run()
