@@ -8,3 +8,4 @@ openpyxl
 pyperclip
 docxtpl
 num2words
+plotly
