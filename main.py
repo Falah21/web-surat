@@ -295,9 +295,15 @@ elif menu == "arsip":
 
 elif menu == "dashboard":
     nav_buttons()
-    # st.info("Dashboard analitik (akan dikembangkan)")
-    from modules import dashboard
-    dashboard.show()
+    # # st.info("Dashboard analitik (akan dikembangkan)")
+    # from modules import dashboard
+    # dashboard.show()
+    st.subheader("📊 Dashboard Aset PT PAL Indonesia")
+    st.components.v1.iframe(
+        src="https://lookerstudio.google.com/embed/reporting/e857cbdf-24a0-408e-b717-1d39a7fcf606/page/p_x332rxz6xd",
+        height=900,
+        scrolling=True
+    )
 
 else:
     show_main_menu()
@@ -312,6 +318,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
