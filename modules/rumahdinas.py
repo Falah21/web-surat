@@ -289,7 +289,7 @@ def run():
             "Luas (m²)": ukuran_meter,
             "Tanggal Mulai": tgl_mulai.strftime("%d-%m-%Y"),
             "Tanggal Selesai": tgl_selesai.strftime("%d-%m-%Y"),
-            "Biaya Sewa Pertahun": harga_sewa_tahunan,
+            "Biaya Sewa Pertahun": harga_sewa_num,
             "created_at": datetime.utcnow()
         }
 
@@ -307,4 +307,5 @@ def run():
 
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
+
     run()
