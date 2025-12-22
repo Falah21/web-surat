@@ -296,7 +296,6 @@ elif menu == "arsip":
 elif menu == "dashboard":
     nav_buttons()
     # st.info("Dashboard analitik (akan dikembangkan)")
-    nav_buttons()
     from modules import dashboard
     dashboard.show()
 
@@ -313,6 +312,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
