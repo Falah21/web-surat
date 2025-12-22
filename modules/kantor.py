@@ -153,7 +153,18 @@ def run():
     total_biaya_kontribusi_display = format_display(str(total_biaya_kontribusi))
     
     # Tampilkan total
-    st.text_input("Total Biaya Kontribusi:", value=total_biaya_kontribusi_display, key="k_total_biaya", disabled=True)
+    # st.text_input("Total Biaya Kontribusi:", value=total_biaya_kontribusi_display, key="k_total_biaya", disabled=True)
+    # ====== SESSION STATE: TOTAL BIAYA KANTOR ======
+    if "k_total_biaya" not in st.session_state:
+        st.session_state["k_total_biaya"] = ""
+    
+    st.session_state["k_total_biaya"] = total_biaya_kontribusi_display
+    
+    st.text_input(
+        "Total Biaya Kontribusi:",
+        key="k_total_biaya",
+        disabled=True
+    )
 
     # Konversi ke string untuk template
     context = {
@@ -306,4 +317,5 @@ def run():
 
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
+
     run()
