@@ -50,8 +50,7 @@ SCHEMA_RUMAH_DINAS = [
     "Lokasi",
     "Nomor Surat Perjanjian",
     "Penyewa",
-    "NIP",
-    "Unit Kerja",
+    "Luas (m²)",
     "Tanggal Mulai",
     "Tanggal Selesai",
     "Biaya Sewa Pertahun",
@@ -173,4 +172,5 @@ def show():
             #         mime="application/json",
             #         key=f"download_json_{tab_name}",
             #         use_container_width=True
+
             #     )
