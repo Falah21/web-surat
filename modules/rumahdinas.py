@@ -122,35 +122,38 @@ def run():
     tgl_selesai = st.date_input("Tanggal Selesai Sewa *", key="r_tgl_selesai")
     hari_selesai, tanggal_selesai, bulan_selesai, tahun_selesai = parse_tanggal_ke_terbilang(tgl_selesai)
 
-    # ====== DASAR PERJANJIAN ======
+    # ====== DASAR PERJANJIAN (DINAMIS) ======
     st.subheader("Dasar Perjanjian - Pasal 1")
-    st.caption("Isi dasar perjanjian dibawah ini dengan benar")
+    st.caption("Klik tambah jika ingin menambah dasar perjanjian")
     
-    # point_pertama_pasal_1 = st.text_area("Point Pertama *", key="r_point1", placeholder="Masukkan point pertama pasal 1 mengenai Dasar Perjanjian", height=100)
-    
+    # simpan ke session_state
     if "dasar_perjanjian" not in st.session_state:
         st.session_state.dasar_perjanjian = [""]
     
-    for i, pasal in enumerate(st.session_state.dasar_perjanjian):
-        st.session_state.dasar_perjanjian[i] = st.text_area(
-            f"Point Dasar Perjanjian {i+1} *",
-            value=pasal,
-            key=f"r_dasar_{i}",
-            height=100
+    # render input
+    for i, val in enumerate(st.session_state.dasar_perjanjian):
+        st.text_area(
+            f"Dasar Perjanjian {i+1}",
+            key=f"dasar_{i}",
+            height=80
         )
     
-    col1, col2 = st.columns(2)
+    # tombol tambah
+    if st.button("➕ Tambah Dasar Perjanjian"):
+        st.session_state.dasar_perjanjian.append("")
     
-    with col1:
-        if st.button("➕ Tambah Point"):
-            st.session_state.dasar_perjanjian.append("")
-            st.rerun()
+    # ====== FORMAT DASAR PERJANJIAN (INI KUNCI UTAMA) ======
+    dasar_perjanjian_list = [
+        st.session_state[f"dasar_{i}"].strip()
+        for i in range(len(st.session_state.dasar_perjanjian))
+        if st.session_state.get(f"dasar_{i}", "").strip()
+    ]
     
-    with col2:
-        if len(st.session_state.dasar_perjanjian) > 1:
-            if st.button("➖ Hapus Point Terakhir"):
-                st.session_state.dasar_perjanjian.pop()
-                st.rerun()
+    dasar_perjanjian_text = "\n".join(
+        f"({i+1}) {p}"
+        for i, p in enumerate(dasar_perjanjian_list)
+    )
+
 
     # ====== DATA BIAYA SEWA ======
     st.subheader("Data Biaya Sewa")
@@ -234,7 +237,7 @@ def run():
         "tahun_selesai": tahun_selesai,
         
         # DASAR PERJANJIAN
-        "dasar_perjanjian": [p for p in st.session_state.dasar_perjanjian if p.strip()],
+        "dasar_perjanjian": dasar_perjanjian_text,
         
         # DATA BIAYA SEWA
         "harga_sewa_rumdis_terbilang": harga_sewa_rumdis_terbilang,
@@ -278,8 +281,8 @@ def run():
         # Dasar Perjanjian
         # if not point_pertama_pasal_1.strip():
         #     errors.append("Point Pertama Pasal 1")
-        if not any(p.strip() for p in st.session_state.dasar_perjanjian):
-            errors.append("Minimal 1 Dasar Perjanjian harus diisi")
+        if not dasar_perjanjian_list:
+            error.append("Minimal 1 dasar perjanjian harus diisi")
         
         # Data Biaya
         if not harga_sewa_tahunan.strip():
@@ -333,4 +336,5 @@ def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
 
     run()
+
 
