@@ -143,27 +143,79 @@ def show_buat_surat_menu():
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        if st.button("🚢 Peti Kemas"):
+        st.markdown("""
+        <div class='card'>
+            <div class='card-icon'>🚢</div>
+            <div class='card-title'>Peti Kemas (Container)</div>
+            <div class='card-desc'>Perjanjian pendayagunaan container.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Buat Surat Container"):
             st.query_params["page"] = "container"
-            st.rerun()
-        if st.button("🏢 Kantor"):
-            st.query_params["page"] = "kantor"
             st.rerun()
 
     with col2:
-        if st.button("🌱 Lahan"):
-            st.query_params["page"] = "lahan"
-            st.rerun()
-        if st.button("🏠 Rumah Dinas"):
-            st.query_params["page"] = "rumah_dinas"
+        st.markdown("""
+        <div class='card'>
+            <div class='card-icon'>🏢</div>
+            <div class='card-title'>Kantor</div>
+            <div class='card-desc'>Perjanjian pendayagunaan ruang kantor.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Buat Surat Kantor"):
+            st.query_params["page"] = "kantor"
             st.rerun()
 
     with col3:
-        if st.button("🏘️ Mess"):
+        st.markdown("""
+        <div class='card'>
+            <div class='card-icon'>🏠</div>
+            <div class='card-title'>Rumah Dinas</div>
+            <div class='card-desc'>Perjanjian pendayagunaan rumah dinas.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Buat Surat Rumah Dinas"):
+            st.query_params["page"] = "rumah_dinas"
+            st.rerun()
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    col4, col5, col6 = st.columns(3)
+
+    with col4:
+        st.markdown("""
+        <div class='card'>
+            <div class='card-icon'>🏘️</div>
+            <div class='card-title'>Mess Menanggal</div>
+            <div class='card-desc'>Perjanjian kontribusi mess.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Buat Surat Mess"):
             st.query_params["page"] = "mess"
             st.rerun()
-        if st.button("📄 Surat Kuasa"):
-            st.query_params["page"] = "surat_kuasa"
+
+    with col5:
+        st.markdown("""
+        <div class='card'>
+            <div class='card-icon'>🌱</div>
+            <div class='card-title'>Lahan</div>
+            <div class='card-desc'>Perjanjian pendayagunaan lahan.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Buat Surat Lahan"):
+            st.query_params["page"] = "lahan"
+            st.rerun()
+
+    with col6:
+        st.markdown("""
+        <div class='card'>
+            <div class='card-icon'>📩</div>
+            <div class='card-title'>Surat Kuasa</div>
+            <div class='card-desc'>Penandatangan surat kuasa.</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Surat Kuasa"):
+            st.query_params["page"] = "suratkuasa"
             st.rerun()
 
 # =========================
@@ -193,6 +245,11 @@ def show_rumah_dinas():
     nav_buttons()
     from modules import rumahdinas
     rumahdinas.show()
+
+def show_surat_kuasa():
+    nav_buttons()
+    form modules import suratkuasa
+    suratkuasa.show()
 
 def show_arsip():
     nav_buttons()
@@ -229,8 +286,7 @@ elif menu == "buat_surat":
     elif page == "rumah_dinas":
         show_rumah_dinas()
     elif page == "surat_kuasa":
-        nav_buttons()
-        st.info("Halaman Surat Kuasa (belum tersedia)")
+        show_surat_kuasa()
     else:
         st.warning("Halaman tidak ditemukan")
 
