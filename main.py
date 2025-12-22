@@ -215,7 +215,7 @@ def show_buat_surat_menu():
         </div>
         """, unsafe_allow_html=True)
         if st.button("Surat Kuasa"):
-            st.query_params["page"] = "suratkuasa"
+            st.query_params["page"] = "surat_kuasa"
             st.rerun()
 
 # =========================
@@ -310,6 +310,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
