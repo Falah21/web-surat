@@ -249,12 +249,44 @@ def load_all_data():
     # =========================
     # NORMALISASI BIAYA
     # =========================
-    def get_biaya(row):
-        if "Biaya Sewa Perbulan" in row and pd.notna(row["Biaya Sewa Perbulan"]):
-            return float(row["Biaya Sewa Perbulan"])
-        if "Biaya Sewa Pertahun" in row and pd.notna(row["Biaya Sewa Pertahun"]):
-            return float(row["Biaya Sewa Pertahun"])
+    def safe_parse_number(value):
+        """
+        Aman untuk:
+        - '5.000.000'
+        - '5,000,000'
+        - 'Rp 5.000.000'
+        - '', None
+        """
+        if value is None:
+            return 0.0
+    
+        if isinstance(value, (int, float)):
+            return float(value)
+    
+        if isinstance(value, str):
+            cleaned = (
+                value.replace("Rp", "")
+                     .replace(".", "")
+                     .replace(",", "")
+                     .strip()
+            )
+            if cleaned == "":
+                return 0.0
+            try:
+                return float(cleaned)
+            except ValueError:
+                return 0.0
+    
         return 0.0
+    
+    
+    def get_biaya(row):
+        if "Biaya Sewa Perbulan" in row:
+            return safe_parse_number(row.get("Biaya Sewa Perbulan"))
+        if "Biaya Sewa Pertahun" in row:
+            return safe_parse_number(row.get("Biaya Sewa Pertahun"))
+        return 0.0
+
 
     df["Biaya"] = df.apply(get_biaya, axis=1)
 
