@@ -126,9 +126,31 @@ def run():
     st.subheader("Dasar Perjanjian - Pasal 1")
     st.caption("Isi dasar perjanjian dibawah ini dengan benar")
     
-    point_pertama_pasal_1 = st.text_area("Point Pertama *", key="r_point1", 
-                                         placeholder="Masukkan point pertama pasal 1 mengenai Dasar Perjanjian",
-                                         height=100)
+    # point_pertama_pasal_1 = st.text_area("Point Pertama *", key="r_point1", placeholder="Masukkan point pertama pasal 1 mengenai Dasar Perjanjian", height=100)
+    
+    if "dasar_perjanjian" not in st.session_state:
+        st.session_state.dasar_perjanjian = [""]
+    
+    for i, pasal in enumerate(st.session_state.dasar_perjanjian):
+        st.session_state.dasar_perjanjian[i] = st.text_area(
+            f"Point Dasar Perjanjian {i+1} *",
+            value=pasal,
+            key=f"r_dasar_{i}",
+            height=100
+        )
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("➕ Tambah Point"):
+            st.session_state.dasar_perjanjian.append("")
+            st.rerun()
+    
+    with col2:
+        if len(st.session_state.dasar_perjanjian) > 1:
+            if st.button("➖ Hapus Point Terakhir"):
+                st.session_state.dasar_perjanjian.pop()
+                st.rerun()
 
     # ====== DATA BIAYA SEWA ======
     st.subheader("Data Biaya Sewa")
@@ -212,7 +234,7 @@ def run():
         "tahun_selesai": tahun_selesai,
         
         # DASAR PERJANJIAN
-        "point_pertama_pasal_1": point_pertama_pasal_1,
+        "dasar_perjanjian": [p for p in st.session_state.dasar_perjanjian if p.strip()],
         
         # DATA BIAYA SEWA
         "harga_sewa_rumdis_terbilang": harga_sewa_rumdis_terbilang,
@@ -254,8 +276,10 @@ def run():
             errors.append("Lama Sewa")
         
         # Dasar Perjanjian
-        if not point_pertama_pasal_1.strip():
-            errors.append("Point Pertama Pasal 1")
+        # if not point_pertama_pasal_1.strip():
+        #     errors.append("Point Pertama Pasal 1")
+        if not any(p.strip() for p in st.session_state.dasar_perjanjian):
+            errors.append("Minimal 1 Dasar Perjanjian harus diisi")
         
         # Data Biaya
         if not harga_sewa_tahunan.strip():
@@ -309,3 +333,4 @@ def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
 
     run()
+
