@@ -94,7 +94,7 @@ def run():
     ]
     
     dasar_perjanjian_text = "\n".join(
-        f"({i+1}).    {p}"
+        f"({i+1}).    {p}."
         for i, p in enumerate(dasar_perjanjian_list)
     )
 
@@ -410,5 +410,6 @@ def run():
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
     run()
+
 
 
