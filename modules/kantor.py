@@ -63,12 +63,46 @@ def run():
     lokasi_gedung_upper = (lokasi_gedung or "").upper()
     lokasi_gedung_title = smart_title(lokasi_gedung)
 
-    # ====== DASAR PERJANJIAN ======
+    # ====== DASAR PERJANJIAN (DINAMIS) ======
     st.subheader("Dasar Perjanjian - Pasal 1")
-    st.caption("Isi dasar perjanjian dibawah ini dengan benar")
-    point_pertama_pasal_1 = st.text_area("Point Pertama *", key="k_point1", placeholder="Masukkan point pertama pasal 1 mengenai Dasar Perjanjian")
-    point_kedua_pasal_1 = st.text_area("Point Kedua *", key="k_point2", placeholder="Masukkan point kedua pasal 1 mengenai Dasar Perjanjian")
-    point_ketiga_pasal_1 = st.text_area("Point Ketiga *", key="k_point3", placeholder="Masukkan point ketiga pasal 1 mengenai Dasar Perjanjian")
+    st.caption("Klik tambah jika ingin menambah dasar perjanjian")
+    
+    # simpan ke session_state
+    if "dasar_perjanjian" not in st.session_state:
+        st.session_state.dasar_perjanjian = [""]
+    
+    # render input
+    for i, val in enumerate(st.session_state.dasar_perjanjian):
+        st.text_area(
+            f"Dasar Perjanjian {i+1}",
+            key=f"dasar_{i}",
+            height=80
+        )
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("➕ Tambah Point"):
+            st.session_state.dasar_perjanjian.append("")
+            st.rerun()
+    
+    with col2:
+        if len(st.session_state.dasar_perjanjian) > 1:
+            if st.button("➖ Hapus Point"):
+                st.session_state.dasar_perjanjian.pop()
+                st.rerun()
+    
+    # ====== FORMAT DASAR PERJANJIAN (INI KUNCI UTAMA) ======
+    dasar_perjanjian_list = [
+        st.session_state[f"dasar_{i}"].strip()
+        for i in range(len(st.session_state.dasar_perjanjian))
+        if st.session_state.get(f"dasar_{i}", "").strip()
+    ]
+    
+    dasar_perjanjian_text = "\n".join(
+        f"({i+1}).    {p}."
+        for i, p in enumerate(dasar_perjanjian_list)
+    )
 
     # ====== DATA UKURAN RUANGAN DAN DURASI ======
     st.subheader("Data Ukuran Ruangan dan Durasi")
@@ -199,9 +233,7 @@ def run():
         "lokasi_gedung_title": lokasi_gedung_title,
 
         # DASAR PERJANJIAN
-        "point_pertama_pasal_1": point_pertama_pasal_1,
-        "point_kedua_pasal_1": point_kedua_pasal_1,
-        "point_ketiga_pasal_1": point_ketiga_pasal_1,
+        "dasar_perjanjian": dasar_perjanjian_text,
 
         # DATA UKURAN
         "ukuran_meter": ukuran_meter_display,
@@ -252,12 +284,8 @@ def run():
             errors.append("Lokasi Gedung")
         
         # Dasar Perjanjian
-        if not point_pertama_pasal_1.strip():
-            errors.append("Point Pertama Pasal 1")
-        if not point_kedua_pasal_1.strip():
-            errors.append("Point Kedua Pasal 1")
-        if not point_ketiga_pasal_1.strip():
-            errors.append("Point Ketiga Pasal 1")
+        if not dasar_perjanjian_list:
+            error.append("Minimal 1 dasar perjanjian harus diisi")
         
         # Data Ukuran
         if not ukuran_meter.strip():
@@ -319,3 +347,4 @@ def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
 
     run()
+
