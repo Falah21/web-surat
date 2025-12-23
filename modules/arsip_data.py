@@ -90,7 +90,7 @@ COLLECTION_MAP = {
 def show():
     """Halaman Arsip Data Surat"""
 
-    st.title("📂 Arsip Data Surat - MongoDB")
+    st.title("📂 Lihat Data Surat")
 
     tabs = st.tabs(list(COLLECTION_MAP.keys()))
 
@@ -192,4 +192,5 @@ def show():
             #         use_container_width=True
 
             #     )
+
 
