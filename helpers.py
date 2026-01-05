@@ -38,7 +38,11 @@ BULAN_INDONESIA = {
 #             return f"{angka} ({teks})"
 #         except:
 #             return angka
-
+def safe_text(text: str):
+    if not text:
+        return ""
+    return text.replace("&", "&amp;")
+    
 # helpers.py - bagian terbilang_desimal
 def terbilang_desimal(angka: str):
     if angka is None:
@@ -280,6 +284,7 @@ def format_display(value_input, value_num=None):
             return f"{value_num:,.0f}".replace(",", ".") + f",- ({terbilang_only} rupiah)"
         except:
             return "0,- (nol rupiah)"
+
 
 
 
