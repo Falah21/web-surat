@@ -13,7 +13,7 @@ def run():
     2. Field dengan tanda <span style="color: #ff4b4b;">*</span> wajib diisi<br>
     3. Total biaya akan dihitung otomatis</div>""", unsafe_allow_html=True)
     
-    template_path = "templates/FIKS - (FRITA) PERJANJIAN KERJASAMA PENDAYAGUNAAN RUANG KANTOR.docx"
+    template_path = "templates/SPER Ruang Kantor 2.docx"
     if not os.path.exists(template_path):
         st.error(f"Template '{template_path}' tidak ditemukan di folder aplikasi.")
         return
@@ -390,3 +390,4 @@ def run():
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
     run()
+
