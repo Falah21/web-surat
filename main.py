@@ -105,7 +105,7 @@ def show_main_menu():
             <div class='card-desc'>Pembuatan surat perjanjian.</div>
         </div>
         """, unsafe_allow_html=True)
-        if st.button("Masuk Buat Surat"):
+        if st.button("Buat Surat"):
             st.query_params["menu"] = "buat_surat"
             st.rerun()
 
@@ -319,6 +319,7 @@ st.markdown(
     "</div>",
     unsafe_allow_html=True
 )
+
 
 
 
