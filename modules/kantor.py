@@ -1,7 +1,7 @@
 import os
 import streamlit as st
 from docxtpl import DocxTemplate
-from helpers import terbilang_desimal, smart_title, parse_tanggal_ke_terbilang, parse_angka_simple, format_display
+from helpers import terbilang_desimal, smart_title, parse_tanggal_ke_terbilang, parse_angka_simple, format_display, safe_text
 from db import get_kantor_collection
 from datetime import datetime
 
@@ -255,9 +255,9 @@ def run():
         "tahun_setuju": tahun_setuju,
         
         # DATA PENYEWA
-        "nama_perusahaan_pihak_kedua": nama_perusahaan_pihak_kedua,
-        "nama_perusahaan_pihak_kedua_upper": nama_perusahaan_pihak_kedua_upper,
-        "nama_perusahaan_pihak_kedua_title": nama_perusahaan_pihak_kedua_title,
+        "nama_perusahaan_pihak_kedua": safe_text(nama_perusahaan_pihak_kedua),
+        "nama_perusahaan_pihak_kedua_upper": safe_text(nama_perusahaan_pihak_kedua_upper),
+        "nama_perusahaan_pihak_kedua_title": safe_text(nama_perusahaan_pihak_kedua_title),
         "jenis_badan_usaha": jenis_badan_usaha,
         "nama_pihak_kedua": nama_pihak_kedua,
         "nama_pihak_kedua_upper": nama_pihak_kedua_upper,
@@ -396,6 +396,7 @@ def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
 
     run()
+
 
 
 
