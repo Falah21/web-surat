@@ -211,29 +211,29 @@ def smart_title(text: str):
 
     # return " ".join(result)
 
-for p in parts:
-    core = p.rstrip(",.;:")
-    trailing = p[len(core):]
-
-    # ⬅️ INI TAMBAHANNYA
-    if any(sym in core for sym in ["&", "@", "/"]):
-        result.append(core + trailing)
-        continue
-
-    # Cek apakah ada hyphen
-    if "-" in core:
-        base = handle_hyphenated_word(core)
-    else:
-        letters_only = "".join(ch for ch in core if ch.isalpha()).upper()
-
-        if letters_only in DEGREE_MAP:
-            base = DEGREE_MAP[letters_only]
-        elif letters_only in UPPER_SET:
-            base = core.upper()
+    for p in parts:
+        core = p.rstrip(",.;:")
+        trailing = p[len(core):]
+    
+        # ⬅️ INI TAMBAHANNYA
+        if any(sym in core for sym in ["&", "@", "/"]):
+            result.append(core + trailing)
+            continue
+    
+        # Cek apakah ada hyphen
+        if "-" in core:
+            base = handle_hyphenated_word(core)
         else:
-            base = core.capitalize()
-
-    result.append(base + trailing)
+            letters_only = "".join(ch for ch in core if ch.isalpha()).upper()
+    
+            if letters_only in DEGREE_MAP:
+                base = DEGREE_MAP[letters_only]
+            elif letters_only in UPPER_SET:
+                base = core.upper()
+            else:
+                base = core.capitalize()
+    
+        result.append(base + trailing)
 
 
 def parse_tanggal_ke_terbilang(tgl: datetime.date):
@@ -299,4 +299,5 @@ def format_display(value_input, value_num=None):
             return f"{value_num:,.0f}".replace(",", ".") + f",- ({terbilang_only} rupiah)"
         except:
             return "0,- (nol rupiah)"
+
 
