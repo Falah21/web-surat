@@ -234,7 +234,7 @@ def smart_title(text: str):
                 base = core.capitalize()
     
         result.append(base + trailing)
-    return "-".join(result_parts)
+    return " ".join(result)
 
 
 def parse_tanggal_ke_terbilang(tgl: datetime.date):
