@@ -130,6 +130,17 @@ def run():
         terbilang_only = terbilang_raw.split("(")[1].replace(")", "").strip() if "(" in terbilang_raw else terbilang_raw
         ukuran_meter_display = f"{ukuran_meter} ({terbilang_only})"
 
+    ukuran_meter2_display = ""
+    if ukuran_meter:
+        # Ambil hanya bagian integer
+        try:
+            meter_int = int(float(ukuran_meter))
+            terbilang_raw = terbilang_desimal(str(meter_int))
+            terbilang_only = terbilang_raw.split("(")[1].replace(")", "").strip() if "(" in terbilang_raw else terbilang_raw
+            ukuran_meter2_display = f"{meter_int} m² ({terbilang_only} meter persegi)"
+        except:
+            ukuran_meter2_display = f"{ukuran_meter} m²"
+
     # Format lama sewa dengan terbilang
     lama_sewa_display = ""
     if lama_sewa:
@@ -159,18 +170,27 @@ def run():
         harga_total_air_input = st.text_input("Biaya Air (Rp)", key="k_air_input", placeholder="Contoh: 100000")
     with col4:
         biaya_sampah_input = st.text_input("Biaya Sampah (Rp)", key="k_sampah_input", placeholder="Contoh: 50000")
+    
+    # ====== TAMBAHAN: HARGA PERBAIKAN ======
+    st.subheader("Biaya Perbaikan")
+    harga_perbaikan_input = st.text_input("Harga Perbaikan (Rp)", key="k_harga_perbaikan", placeholder="Contoh: 1000000", value="0")
 
     # ====== PERHITUNGAN TOTAL OTOMATIS ======
-    st.subheader("Total Biaya Kontribusi")
+    st.subheader("Perhitungan Biaya Tahunan")
     
     # Hitung nilai-nilai
     harga_lahan_kantor_num = parse_angka_simple(harga_lahan_kantor_input)
     harga_total_listrik_num = parse_angka_simple(harga_total_listrik_input)
     harga_total_air_num = parse_angka_simple(harga_total_air_input)
     biaya_sampah_num = parse_angka_simple(biaya_sampah_input)
+    harga_perbaikan_num = parse_angka_simple(harga_perbaikan_input)
     
-    # Hitung total biaya kontribusi
-    total_biaya_kontribusi = harga_lahan_kantor_num + harga_total_listrik_num + harga_total_air_num + biaya_sampah_num
+    # Hitung biaya tahunan
+    harga_lahan_kantor_thn_num = harga_lahan_kantor_num * 12
+    biaya_sampah_thn_num = biaya_sampah_num * 12
+    
+    # Hitung total biaya kontribusi: (harga_lahan_kantor_thn - harga_perbaikan)
+    total_biaya_kontribusi_num = harga_lahan_kantor_thn_num - harga_perbaikan_num
     
     # Format nilai untuk template
     nilai_ampere_display = ""
@@ -184,18 +204,35 @@ def run():
     harga_total_listrik_display = format_display(harga_total_listrik_input, harga_total_listrik_num)
     harga_total_air_display = format_display(harga_total_air_input, harga_total_air_num)
     biaya_sampah_display = format_display(biaya_sampah_input, biaya_sampah_num)
-    total_biaya_kontribusi_display = format_display(str(total_biaya_kontribusi))
+    harga_perbaikan_display = format_display(harga_perbaikan_input, harga_perbaikan_num)
     
-    # Tampilkan total
-    # st.text_input("Total Biaya Kontribusi:", value=total_biaya_kontribusi_display, key="k_total_biaya", disabled=True)
-    # ====== SESSION STATE: TOTAL BIAYA KANTOR ======
-    if "k_total_biaya" not in st.session_state:
-        st.session_state["k_total_biaya"] = ""
+    # Format biaya tahunan (DISABLED)
+    harga_lahan_kantor_thn_display = format_display(str(harga_lahan_kantor_thn_num))
+    biaya_sampah_thn_display = format_display(str(biaya_sampah_thn_num))
+    total_biaya_kontribusi_display = format_display(str(total_biaya_kontribusi_num))
     
-    st.session_state["k_total_biaya"] = total_biaya_kontribusi_display
+    # Tampilkan biaya tahunan (disabled)
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.text_input(
+            "Harga Lahan Kantor/Tahun:",
+            value=harga_lahan_kantor_thn_display,
+            key="k_harga_lahan_kantor_thn",
+            disabled=True
+        )
+    with col2:
+        st.text_input(
+            "Biaya Sampah/Tahun:",
+            value=biaya_sampah_thn_display,
+            key="k_biaya_sampah_thn",
+            disabled=True
+        )
     
+    # Tampilkan total biaya kontribusi
+    st.subheader("Total Biaya Kontribusi")
     st.text_input(
-        "Total Biaya Kontribusi:",
+        "Total Biaya Kontribusi (Lahan Kantor/Tahun - Perbaikan):",
+        value=total_biaya_kontribusi_display,
         key="k_total_biaya",
         disabled=True
     )
@@ -236,7 +273,7 @@ def run():
         "dasar_perjanjian": dasar_perjanjian_text,
 
         # DATA UKURAN
-        "ukuran_meter": ukuran_meter_display,
+        "ukuran_meter2": ukuran_meter2_display,
 
         # DURASI SEWA
         "lama_sewa": lama_sewa_display,
@@ -254,7 +291,9 @@ def run():
         "harga_total_listrik": harga_total_listrik_display,
         "harga_total_air": harga_total_air_display,
         "biaya_sampah": biaya_sampah_display,
-        "nilai_ampere": nilai_ampere_display,
+        "harga_perbaikan": harga_perbaikan_display,
+        "harga_lahan_kantor_thn": harga_lahan_kantor_thn_display,
+        "biaya_sampah_thn": biaya_sampah_thn_display,
         "total_biaya_kontribusi": total_biaya_kontribusi_display,
     }
 
@@ -278,6 +317,8 @@ def run():
             errors.append("Alamat Perusahaan")
         if not nomor_telepon_pihak_kedua.strip():
             errors.append("Nomor Telepon")
+        if not email_pihak_kedua.strip():
+            errors.append("Email")
         
         # Data Lokasi
         if not lokasi_gedung.strip():
@@ -285,17 +326,17 @@ def run():
         
         # Dasar Perjanjian
         if not dasar_perjanjian_list:
-            error.append("Minimal 1 dasar perjanjian harus diisi")
+            errors.append("Minimal 1 dasar perjanjian harus diisi")
         
         # Data Ukuran
         if not ukuran_meter.strip():
             errors.append("Ukuran Ruangan (meter persegi)")
         
-        # Data Biaya - PERBAIKAN: ganti label sesuai dengan input
+        # Data Biaya
         if not harga_lahan_kantor_input.strip():
             errors.append("Harga Biaya Objek")
         
-        # Durasi Sewa - PERBAIKAN: hapus "(bulan)" karena sekarang ada pilihan satuan
+        # Durasi Sewa
         if not lama_sewa.strip():
             errors.append("Lama Sewa")
         
@@ -319,7 +360,6 @@ def run():
             return
         
         # ===== SIMPAN DATABASE (SETELAH DOCX BERHASIL) =====
-
         data_kantor = {
             "Lokasi": lokasi_gedung_title,
             "Nomor Surat Perjanjian": nomor_perjanjian_upper,
@@ -328,6 +368,10 @@ def run():
             "Tanggal Mulai": tgl_mulai.strftime("%d-%m-%Y"),
             "Tanggal Selesai": tgl_selesai.strftime("%d-%m-%Y"),
             "Biaya Sewa Perbulan": harga_lahan_kantor_input,
+            "Biaya Perbaikan": harga_perbaikan_input,
+            "Biaya Lahan Kantor/Tahun": str(harga_lahan_kantor_thn_num),
+            "Biaya Sampah/Tahun": str(biaya_sampah_thn_num),
+            "Total Biaya Kontribusi": str(total_biaya_kontribusi_num),
             "created_at": datetime.utcnow()
         }
 
@@ -345,6 +389,4 @@ def run():
 
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
-
     run()
-
