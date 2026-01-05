@@ -234,6 +234,7 @@ def smart_title(text: str):
                 base = core.capitalize()
     
         result.append(base + trailing)
+    return "-".join(result_parts)
 
 
 def parse_tanggal_ke_terbilang(tgl: datetime.date):
@@ -299,5 +300,6 @@ def format_display(value_input, value_num=None):
             return f"{value_num:,.0f}".replace(",", ".") + f",- ({terbilang_only} rupiah)"
         except:
             return "0,- (nol rupiah)"
+
 
 
