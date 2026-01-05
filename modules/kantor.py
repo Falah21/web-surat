@@ -107,13 +107,11 @@ def run():
     # ====== DATA UKURAN RUANGAN DAN DURASI ======
     st.subheader("Data Ukuran Ruangan dan Durasi")
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     with col1:
         ukuran_meter = st.text_input("Ukuran Ruangan (m²) *", key="k_ukuran_meter", placeholder="Contoh: 50")
     with col2:
         lama_sewa = st.text_input("Lama Sewa *", key="k_lama_sewa", placeholder="Contoh: 12")
-    with col3:
-        nilai_ampere = st.text_input("Daya Listrik (Ampere)", key="k_ampere", placeholder="Contoh: 2")
 
     # Tambahkan satuan sewa (opsional)
     satuan_sewa = st.selectbox(
@@ -157,13 +155,13 @@ def run():
     hari_selesai, tanggal_selesai, bulan_selesai, tahun_selesai = parse_tanggal_ke_terbilang(tgl_selesai)
 
     # ====== DATA BIAYA - INPUT LANGSUNG ======
-    st.subheader("Data Biaya (Input Langsung)")
+    st.subheader("Data Biaya")
     
     col1, col2 = st.columns(2)
     with col1:
-        harga_lahan_kantor_input = st.text_input("Harga Biaya Objek*", key="k_harga_lahan_kantor", placeholder="Contoh: 5000000")
+        harga_lahan_kantor_input = st.text_input("Harga Biaya Kantor (Bulanan)*", key="k_harga_lahan_kantor", placeholder="Contoh: 5000000")
     with col2:
-        harga_total_listrik_input = st.text_input("Harga Listrik (Rp)", key="k_harga_listrik", placeholder="Contoh: 200000")
+        harga_perbaikan_input = st.text_input("Harga Perbaikan (Rp)", key="k_harga_perbaikan", placeholder="Contoh: 200000")
 
     col3, col4 = st.columns(2)
     with col3:
@@ -172,41 +170,76 @@ def run():
         biaya_sampah_input = st.text_input("Biaya Sampah (Rp)", key="k_sampah_input", placeholder="Contoh: 50000")
 
     # ====== PERHITUNGAN TOTAL OTOMATIS ======
-    st.subheader("Total Biaya Kontribusi")
+    st.subheader("Perhitungan Biaya Tahunan")
     
     # Hitung nilai-nilai
     harga_lahan_kantor_num = parse_angka_simple(harga_lahan_kantor_input)
-    harga_total_listrik_num = parse_angka_simple(harga_total_listrik_input)
+    harga_perbaikan_num = parse_angka_simple(harga_perbaikan_input)
     harga_total_air_num = parse_angka_simple(harga_total_air_input)
     biaya_sampah_num = parse_angka_simple(biaya_sampah_input)
+
+    # Hitung total biaya tahunan
+    harga_lahan_kantor_thn_num = harga_lahan_kantor_num * 12
+    biaya_sampah_thn_num = biaya_sampah_num * 12
+    # Hitung total biaya kontribusi: (harga_lahan_kantor_thn - harga_perbaikan)
+    total_biaya_kontribusi_num = harga_lahan_kantor_thn_num - harga_perbaikan_num
     
     # Hitung total biaya kontribusi
-    total_biaya_kontribusi = harga_lahan_kantor_num + harga_total_listrik_num + harga_total_air_num + biaya_sampah_num
+    # total_biaya_kontribusi = harga_lahan_kantor_num + harga_total_listrik_num + harga_total_air_num + biaya_sampah_num
     
     # Format nilai untuk template
-    nilai_ampere_display = ""
-    if nilai_ampere and nilai_ampere.strip():
-        terbilang_raw = terbilang_desimal(nilai_ampere)
-        terbilang_only = terbilang_raw.split("(")[1].replace(")", "").strip() if "(" in terbilang_raw else terbilang_raw
-        nilai_ampere_display = f"{nilai_ampere} ({terbilang_only})"
+    # nilai_ampere_display = ""
+    # if nilai_ampere and nilai_ampere.strip():
+    #     terbilang_raw = terbilang_desimal(nilai_ampere)
+    #     terbilang_only = terbilang_raw.split("(")[1].replace(")", "").strip() if "(" in terbilang_raw else terbilang_raw
+    #     nilai_ampere_display = f"{nilai_ampere} ({terbilang_only})"
     
     # Format semua biaya
     harga_lahan_kantor_display = format_display(harga_lahan_kantor_input, harga_lahan_kantor_num)
-    harga_total_listrik_display = format_display(harga_total_listrik_input, harga_total_listrik_num)
+    # harga_total_listrik_display = format_display(harga_total_listrik_input, harga_total_listrik_num)
     harga_total_air_display = format_display(harga_total_air_input, harga_total_air_num)
     biaya_sampah_display = format_display(biaya_sampah_input, biaya_sampah_num)
-    total_biaya_kontribusi_display = format_display(str(total_biaya_kontribusi))
+    harga_perbaikan_display = format_display(harga_perbaikan_input, harga_perbaikan_num)
+    
+    # Format biaya tahunan dan simpan ke session state
+    harga_lahan_kantor_thn_display = format_display(str(harga_lahan_kantor_thn_num))
+    biaya_sampah_thn_display = format_display(str(biaya_sampah_thn_num))
+    total_biaya_kontribusi_display = format_display(str(total_biaya_kontribusi_num))
     
     # Tampilkan total
     # st.text_input("Total Biaya Kontribusi:", value=total_biaya_kontribusi_display, key="k_total_biaya", disabled=True)
+
+    
     # ====== SESSION STATE: TOTAL BIAYA KANTOR ======
+    if "k_harga_lahan_kantor_thn" not in st.session_state:
+        st.session_state["k_harga_lahan_kantor_thn"] = ""
+    
+    st.session_state["k_harga_lahan_kantor_thn"] = harga_lahan_kantor_thn_display
+    
+    st.text_input(
+        "Total Harga Kantor per Tahun:",
+        key="k_harga_lahan_kantor_thn",
+        disabled=True
+    )
+
+    if "k_biaya_sampah_thn" not in st.session_state:
+        st.session_state["k_biaya_sampah_thn"] = ""
+    
+    st.session_state["k_biaya_sampah_thn"] = biaya_sampah_thn_display
+    
+    st.text_input(
+        "Total Biaya Sampah per Tahun:",
+        key="k_biaya_sampah_thn",
+        disabled=True
+    )
+
     if "k_total_biaya" not in st.session_state:
         st.session_state["k_total_biaya"] = ""
     
     st.session_state["k_total_biaya"] = total_biaya_kontribusi_display
     
     st.text_input(
-        "Total Biaya Kontribusi:",
+        "Total Biaya Kontribusi per Tahun:",
         key="k_total_biaya",
         disabled=True
     )
@@ -247,6 +280,7 @@ def run():
         "dasar_perjanjian": dasar_perjanjian_text,
 
         # DATA UKURAN
+        "ukuran_meter": ukuran_meter_display,
         "ukuran_meter2": ukuran_meter2_display,
 
         # DURASI SEWA
@@ -262,9 +296,12 @@ def run():
 
         # DATA BIAYA
         "harga_lahan_kantor": harga_lahan_kantor_display,
-        "harga_total_listrik": harga_total_listrik_display,
+        # "harga_total_listrik": harga_total_listrik_display,
         "harga_total_air": harga_total_air_display,
         "biaya_sampah": biaya_sampah_display,
+        "harga_perbaikan": harga_perbaikan_display,
+        "harga_lahan_kantor_thn": harga_lahan_kantor_thn_display,
+        "biaya_sampah_thn": biaya_sampah_thn_display,
         "total_biaya_kontribusi": total_biaya_kontribusi_display,
     }
 
@@ -359,5 +396,6 @@ def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
 
     run()
+
 
 
