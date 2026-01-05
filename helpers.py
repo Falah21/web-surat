@@ -184,32 +184,57 @@ def smart_title(text: str):
     parts = text.split()
     result = []
 
-    for p in parts:
-        # Pisah core & tanda baca di belakang (koma, titik, titik koma)
-        core = p.rstrip(",.;:")
-        trailing = p[len(core):]  # tanda baca di belakang, misal ",", "."
+    # for p in parts:
+    #     # Pisah core & tanda baca di belakang (koma, titik, titik koma)
+    #     core = p.rstrip(",.;:")
+    #     trailing = p[len(core):]  # tanda baca di belakang, misal ",", "."
         
-        # Cek apakah ada hyphen
-        if "-" in core:
-            # Handle kata dengan hyphen
-            base = handle_hyphenated_word(core)
+    #     # Cek apakah ada hyphen
+    #     if "-" in core:
+    #         # Handle kata dengan hyphen
+    #         base = handle_hyphenated_word(core)
+    #     else:
+    #         # Ambil cuma huruf dari core, buat dicek
+    #         letters_only = "".join(ch for ch in core if ch.isalpha()).upper()
+
+    #         if letters_only in DEGREE_MAP:
+    #             # Contoh: "s.h", "S.H", "sh." → "S.H." lalu tambahin trailing
+    #             base = DEGREE_MAP[letters_only]
+    #         elif letters_only in UPPER_SET:
+    #             # Contoh: "vi/27" → "VI/27", "pt" → "PT"
+    #             base = core.upper()
+    #         else:
+    #             # Normal: kapital huruf pertama saja
+    #             base = core.capitalize()
+        
+    #     result.append(base + trailing)
+
+    # return " ".join(result)
+
+for p in parts:
+    core = p.rstrip(",.;:")
+    trailing = p[len(core):]
+
+    # ⬅️ INI TAMBAHANNYA
+    if any(sym in core for sym in ["&", "@", "/"]):
+        result.append(core + trailing)
+        continue
+
+    # Cek apakah ada hyphen
+    if "-" in core:
+        base = handle_hyphenated_word(core)
+    else:
+        letters_only = "".join(ch for ch in core if ch.isalpha()).upper()
+
+        if letters_only in DEGREE_MAP:
+            base = DEGREE_MAP[letters_only]
+        elif letters_only in UPPER_SET:
+            base = core.upper()
         else:
-            # Ambil cuma huruf dari core, buat dicek
-            letters_only = "".join(ch for ch in core if ch.isalpha()).upper()
+            base = core.capitalize()
 
-            if letters_only in DEGREE_MAP:
-                # Contoh: "s.h", "S.H", "sh." → "S.H." lalu tambahin trailing
-                base = DEGREE_MAP[letters_only]
-            elif letters_only in UPPER_SET:
-                # Contoh: "vi/27" → "VI/27", "pt" → "PT"
-                base = core.upper()
-            else:
-                # Normal: kapital huruf pertama saja
-                base = core.capitalize()
-        
-        result.append(base + trailing)
+    result.append(base + trailing)
 
-    return " ".join(result)
 
 def parse_tanggal_ke_terbilang(tgl: datetime.date):
     if not isinstance(tgl, (datetime.date, datetime.datetime)):
@@ -274,3 +299,4 @@ def format_display(value_input, value_num=None):
             return f"{value_num:,.0f}".replace(",", ".") + f",- ({terbilang_only} rupiah)"
         except:
             return "0,- (nol rupiah)"
+
