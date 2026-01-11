@@ -146,23 +146,25 @@ def show():
                 )
 
             # ===== DOWNLOAD DOCX PER SURAT =====
-            st.divider()
-            st.subheader("📄 Download Dokumen Surat")
-
-            for _, row in df.iterrows():
-                file_path = row.get("file_path")
-
-                if file_path and os.path.exists(file_path):
-                    with open(file_path, "rb") as f:
-                        st.download_button(
-                            label=row["Nomor Surat Perjanjian"],
-                            data=f,
-                            file_name=os.path.basename(file_path),
-                            mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                            key=f"docx_{tab_name}_{row['Nomor Surat Perjanjian']}"
-                        )
-                else:
-                    st.warning(
-                        f"File tidak ditemukan untuk: {row['Nomor Surat Perjanjian']}",
-                        icon="⚠️"
-                    )
+                st.divider()
+                st.subheader("📄 Download Dokumen Surat")
+                
+                for _, row in df.iterrows():
+                    file_path = row.get("file_path")
+                    nomor_surat = row.get("Nomor Surat Perjanjian", "Dokumen")
+                
+                    if (
+                        isinstance(file_path, str)
+                        and file_path.strip() != ""
+                        and os.path.exists(file_path)
+                    ):
+                        with open(file_path, "rb") as f:
+                            st.download_button(
+                                label=f"📥 {nomor_surat}",
+                                data=f,
+                                file_name=os.path.basename(file_path),
+                                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                key=f"docx_{tab_name}_{nomor_surat}"
+                            )
+                    else:
+                        st.caption(f"⚠️ File tidak tersedia untuk: {nomor_surat}")
