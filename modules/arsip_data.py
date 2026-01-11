@@ -105,13 +105,41 @@ def show():
                         lambda x: f"{int(x):,}".replace(",", ".")
                         if pd.notna(x) else ""
                     )
-
+            df["Action"] = "⬇ Download"
             # ===== TAMPILKAN TABEL =====
             st.dataframe(
                 df.drop(columns=["file_path"], errors="ignore"),
                 use_container_width=True,
                 hide_index=True
             )
+            st.subheader("⚡ Action Download Dokumen")
+
+            for i, row in df.iterrows():
+                file_path = row.get("file_path")
+                nomor_surat = row.get("Nomor Surat Perjanjian", "Dokumen")
+            
+                col1, col2 = st.columns([3, 1])
+            
+                with col1:
+                    st.write(nomor_surat)
+            
+                with col2:
+                    if (
+                        isinstance(file_path, str)
+                        and file_path.strip() != ""
+                        and os.path.exists(file_path)
+                    ):
+                        with open(file_path, "rb") as f:
+                            st.download_button(
+                                "⬇ Download",
+                                data=f,
+                                file_name=os.path.basename(file_path),
+                                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                                key=f"btn_{tab_name}_{i}"
+                            )
+                    else:
+                        st.caption("❌ File tidak ada")
+
 
             st.caption(f"Total data: {len(df)}")
 
@@ -145,26 +173,27 @@ def show():
                     key=f"xlsx_{tab_name}"
                 )
 
-            # ===== DOWNLOAD DOCX PER SURAT =====
-                st.divider()
-                st.subheader("📄 Download Dokumen Surat")
+            # # ===== DOWNLOAD DOCX PER SURAT =====
+            #     st.divider()
+            #     st.subheader("📄 Download Dokumen Surat")
                 
-                for _, row in df.iterrows():
-                    file_path = row.get("file_path")
-                    nomor_surat = row.get("Nomor Surat Perjanjian", "Dokumen")
+            #     for _, row in df.iterrows():
+            #         file_path = row.get("file_path")
+            #         nomor_surat = row.get("Nomor Surat Perjanjian", "Dokumen")
                 
-                    if (
-                        isinstance(file_path, str)
-                        and file_path.strip() != ""
-                        and os.path.exists(file_path)
-                    ):
-                        with open(file_path, "rb") as f:
-                            st.download_button(
-                                label=f"📥 {nomor_surat}",
-                                data=f,
-                                file_name=os.path.basename(file_path),
-                                mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                                key=f"docx_{tab_name}_{nomor_surat}"
-                            )
-                    else:
-                        st.caption(f"⚠️ File tidak tersedia untuk: {nomor_surat}")
+            #         if (
+            #             isinstance(file_path, str)
+            #             and file_path.strip() != ""
+            #             and os.path.exists(file_path)
+            #         ):
+            #             with open(file_path, "rb") as f:
+            #                 st.download_button(
+            #                     label=f"📥 {nomor_surat}",
+            #                     data=f,
+            #                     file_name=os.path.basename(file_path),
+            #                     mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            #                     key=f"docx_{tab_name}_{nomor_surat}"
+            #                 )
+            #         else:
+            #             st.caption(f"⚠️ File tidak tersedia untuk: {nomor_surat}")
+
