@@ -5,6 +5,8 @@ from helpers import terbilang_desimal, smart_title, parse_tanggal_ke_terbilang, 
 from db import get_container_collection
 from datetime import datetime
 
+ARSIP_FOLDER = "arsip_dokumen/container"
+
 def run():
     st.header("📦 Perjanjian Kerjasama Container")
     st.markdown("""<div style="background-color: #f8f9fa; padding: 12px; border-radius: 8px; border-left: 4px solid #0000ff;">
@@ -374,8 +376,13 @@ def run():
             st.error("❌ Nomor Surat Perjanjian sudah terdaftar di database!")
             return
 
-        # ===== GENERATE DOCX =====
+        # ===== GENERATE DOCX & SIMPAN ARSIP =====
         try:
+            os.makedirs(ARSIP_FOLDER, exist_ok=True)
+        
+            safe_filename = nomor_perjanjian_upper.replace("/", "_")
+            docx_path = f"{ARSIP_FOLDER}/{safe_filename}.docx"
+        
             doc.render(context)
             doc.save(docx_path)
         except Exception as e:
@@ -392,6 +399,7 @@ def run():
             "Tanggal Mulai": tgl_mulai.strftime("%d-%m-%Y"),
             "Tanggal Selesai": tgl_selesai.strftime("%d-%m-%Y"),
             "Biaya Sewa Perbulan": biaya_total_perbulan,
+            "file_path": docx_path,   # 🔥 KUNCI UTAMA
             "created_at": datetime.utcnow()
         }
 
@@ -410,6 +418,7 @@ def run():
 def show():
     """Fungsi utama untuk ditampilkan di aplikasi Streamlit"""
     run()
+
 
 
 
